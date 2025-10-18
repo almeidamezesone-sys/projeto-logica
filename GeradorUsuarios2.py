@@ -29,7 +29,6 @@ def Gerador_funcionarios():
     ac_in_qa = Acidente(danos, dias)
     data_ocorrencia = str(input("Digite a data da ocorrencia: "))
 
-
     return{
         "Nome: ": nome,
         "Função: ": cargo,
@@ -39,7 +38,6 @@ def Gerador_funcionarios():
         "Data ocorrência: ": data_ocorrencia
     }
   
-
 if __name__ == "__main__":
     while True:
         funcionarios = [Gerador_funcionarios()]
