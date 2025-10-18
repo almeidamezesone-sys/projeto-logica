@@ -3,7 +3,6 @@ import random as rd
 import pandas as pd 
 import os
 
-
 Lista_Primeiro_nome = ["Ana", "Beatriz", "Carla", "Daniela", "Eduarda",
             "Fernanda", "Gabriela", "Isabela", "Juliana", "Karina",
             "Larissa", "Marta", "Natalia", "Olga", "Paula",
@@ -51,7 +50,6 @@ Lista_Segundo_nome = ["Souza", "Oliveira", "Silva", "Costa", "Almeida",
             "Silva", "Vargas", "Ribeiro", "Lima", "Pereira", "Braga",
             "Diniz", "Braule", "Frota", "Lameu", "Barroso", "Dutra"]
 
-
 Lista_dano = ["Sim", "Não"]
 
 Lista_Funcao = ["Supervisor", "Fiscal", "Ag. Comercial"]
@@ -63,14 +61,12 @@ def gerar_data_aleatoria():
     primeiro_dia = hoje.replace(day=1)
     delta = (hoje - primeiro_dia).days + 1
     dias_aleatorios = rd.randint(0, delta - 1)
-    return primeiro_dia + timedelta(days=dias_aleatorios)
-
+    return primeiro_dia + timedelta(days=dias_aleatorios
 
 def Funcionario():
     primeiro_nome = rd.choice(Lista_Primeiro_nome)
     segundo_nome = rd.choice(Lista_Segundo_nome)
     return f"{primeiro_nome } {segundo_nome} "
-
 
 def Funcao():
     return rd.choice(Lista_Funcao)
@@ -89,14 +85,12 @@ def Acidente(dano, dias):
         return "Acidente"
     else:
         return Incidente_quase_acidente(dano)
-    
         
 def Incidente_quase_acidente(dano):
     if dano == "Não":
         return "Quase acidente"
     else:
         return "Incidente"
-
 
 def Gerador_funcionarios():
     nome = Funcionario()
@@ -115,14 +109,11 @@ def Gerador_funcionarios():
         "Data ocorrência: ": data_ocorrencia
     }
 
-
-
 if __name__ == "__main__":
     funcionarios = [Gerador_funcionarios() for _ in range(52)]
     
     print(f"{'Nome':<20} {'Função':<20} {'Dias afastados':<19} {'Teve danos':<19} {'Tipo de acidente':<19} {'Data ocorrência'}")
     print("-" * 90)
-
     
     for f in funcionarios:
         print(f"{f['Nome: ']:<20} {f['Função: ']:<20} {f['Dias afastados: ']:<20} {f['teve danos: ']:<19} {f['tipo de acidente: ']:<19} {f['Data ocorrência: ']}")
