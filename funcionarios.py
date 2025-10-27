@@ -47,7 +47,6 @@ class Funcionarios():
         aba = "Funcionários"
 
         if not os.path.exists(self.pathArquivo):
-            # Arquivo não existe → criar e adicionar a aba
             with pd.ExcelWriter(self.pathArquivo, engine="openpyxl") as writer:
                 df_new.to_excel(writer, sheet_name=aba, index=False)
             print("✅ Arquivo criado. Dados salvos com sucesso!")
