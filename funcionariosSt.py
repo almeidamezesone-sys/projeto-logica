@@ -14,16 +14,24 @@ class Funcionarios():
         self.pathArquivo = "funcionarios.xlsx"
         
     #função que gera o funcionário apartir do seu nome e cargo, salva-o em um dicionário e chama a função salvarFuncionário
-    def Gerador_funcionarios(self,):        
-        # Inicializa as variáveis no session_state se não existirem
-        # Cria os widgets ligados ao session_state
-        nome = st.text_input("Digite seu nome:", key="nome_input")
-        cargo = st.text_input("Digite seu cargo:", key="cargo_input")
-        funcionario = [{"nome": nome, "cargo": cargo}]
-        if st.button("Cadastrar"):
-            self.salvarFuncionarios(funcionario)
-    
+    def Gerador_funcionarios(self):        
+    # 🔹 Formulário isolado
+        with st.form("form_funcionario", clear_on_submit=True):
+            nome = st.text_input("Digite seu nome:", key="nome_input")
+            cargo = st.text_input("Digite seu cargo:", key="cargo_input")
+            enviar = st.form_submit_button("Cadastrar")
+
+        # 🔹 O código aqui só roda quando o botão é clicado
+        if enviar:
+            if not nome or not cargo:
+                st.warning("⚠️ Preencha todos os campos antes de salvar.")
+            else:
+                funcionario = [{"nome": nome, "cargo": cargo}]
+                self.salvarFuncionarios(funcionario)
+                st.success(f"✅ Funcionário {nome} ({cargo}) cadastrado com sucesso!")
+                
     def salvarFuncionarios(self, funcionario):
+       
         df_new = pd.DataFrame(funcionario)
         aba = "Funcionários"
         if not os.path.exists(self.pathArquivo):

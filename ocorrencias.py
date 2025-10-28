@@ -2,6 +2,7 @@
 import pandas as pd 
 import os
 from openpyxl import load_workbook
+import streamlit as st
 
 class Ocorrencias():
     """Classe responsável pelo registro de ocorrências e da criação de outra aba no arquivo principal"""
@@ -10,44 +11,45 @@ class Ocorrencias():
     def __init__(self):
         self.pathArquivo = "funcionarios.xlsx"
         self.funcionario = {}
-        self.calculosOcorrencia()
-        self.salvarOcorrencias(self.funcionario)
+        
 
     #função responsável por achar um funcionário já cadastrado e retornar o seu cargo.
     def acharFuncionario(self, nome):
         if not os.path.exists(self.pathArquivo):
-            print("Arquivo de funcionários não encontrado.")
+            st.warning("Arquivo de funcionários não encontrado.")
         df = pd.read_excel(self.pathArquivo)
         encontrado = df[df["nome"] == nome]
         if not encontrado.empty:
             funcionario = encontrado.iloc[0]  
-            print("Funcionário encontrado:")
-            print(f"Nome: {funcionario['nome']}")
-            print(f"Cargo: {funcionario['cargo']}")
-            """yn = input("Deseja prosseguir com ele? Y/N")
-            if yn.lower() == "n":
-                break"""
+            st.success("Funcionário encontrado:")
+            st.write(f"Nome: {funcionario['nome']}")
+            st.write(f"Cargo: {funcionario['cargo']}")
             self.funcionario = {
                 "nome": funcionario["nome"],
                 "cargo": funcionario["cargo"]
             } 
         else:
-            print("Funcionário inexistente, cadastre-o primeiro.")
+            st.write("Funcionário inexistente, cadastre-o primeiro.")
 
     def calculosOcorrencia(self):
-        nome = str(input("Qual nome do funcionário?: "))
-        if self.acharFuncionario(nome) != False:
-            dias = int(input("Quantos dias afastados? "))
+        nome = st.text_input("Qual o nome do funcionário?", key="nome")
+        button = st.button("Buscar")
+        self.acharFuncionario(nome)
 
-            if dias != 0:
-                lesão = "Sim"
-                tipo = "Acidente"
-            else:
-                lesão = input("Houve lesão?").lower()
-                if lesão == "sim":  tipo = "Incidente"
-                else: tipo = "Quase Acidente"
+        with st.form("form_ocorrencias", clear_on_submit=True):
+            
+            if  != False:
+                dias = st.text_input("Quantos dias afastados? ", key="dias")
+                if dias != 0:
+                    lesão = "Sim"
+                    tipo = "Acidente"
+                else:
+                    lesão = input("Houve lesão?").lower()
+                    if lesão == "sim":  tipo = "Incidente"
+                    else: tipo = "Quase Acidente"
+            enviar = st.form_submit_button("Cadastrar Ocorrência")
 
-
+        if enviar:
             data = str(input("Digite a data da ocorrencia: "))
 
             self.funcionario.update({
@@ -56,9 +58,9 @@ class Ocorrencias():
                 "Tipo: ": tipo,
                 "Data: ": data,
             })
-            
+        
 
-    def salvarOcorrencias(self, funcionario):
+    """def salvarOcorrencias(self, funcionario):
         df_new = pd.DataFrame([funcionario])
         aba = "Ocorrências"
 
@@ -83,3 +85,4 @@ class Ocorrencias():
                 df_atualizado.to_excel(writer, sheet_name=aba, index=False)
             print(f"✅ Registro adicionado à aba '{aba}' com sucesso!")
 
+"""
