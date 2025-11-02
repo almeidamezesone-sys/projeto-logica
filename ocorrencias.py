@@ -38,7 +38,7 @@ class Ocorrencias():
 
         with st.form("form_ocorrencias", clear_on_submit=True):
             
-            if  != False:
+            if  nome != False:
                 dias = st.text_input("Quantos dias afastados? ", key="dias")
                 if dias != 0:
                     lesão = "Sim"
